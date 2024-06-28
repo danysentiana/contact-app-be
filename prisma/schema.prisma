@@ -21,19 +21,31 @@ model User {
   phone     String  @db.VarChar(20)
   token     String? @db.VarChar(100)
   contacts  Contact[]
+  photo     File?
 
   @@map("users")
 }
 
 model Contact {
-  id        Int    @id @default(autoincrement())
-  name      String @db.VarChar(100)
-  email     String @db.VarChar(100)
-  phone     String @db.VarChar(20)
-  username  String @db.VarChar(100)
-  user      User   @relation(fields: [username], references: [username])
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(100)
+  email       String @db.VarChar(100)
+  phone       String @db.VarChar(20)
+  user        User   @relation(fields: [username], references: [username])
+  username    String @db.VarChar(100)
 
   @@map("contacts")
+}
+
+model File {
+  id              Int     @id @default(autoincrement())
+  file_name       String  @db.VarChar(100)
+  file_content    String  @db.Text
+  file_extension  String  @db.VarChar(7)
+  user            User    @relation(fields: [username], references: [username])
+  username        String  @unique
+
+  @@map("files")
 }
 
 
